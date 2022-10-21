@@ -19,7 +19,7 @@ jobs:
     # Install the newman command line utility and also install the html extra reporter
     - name: Install newman
       run: |
-       npm i-g newman-reporter-html
+       npm i newman-reporter-html
        
     # Make directory to upload the test results
     - name: Make Directory for results
