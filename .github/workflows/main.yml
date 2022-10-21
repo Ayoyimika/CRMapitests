@@ -19,7 +19,6 @@ jobs:
     # Install the newman command line utility and also install the html extra reporter
     - name: Install newman
       run: |
-        npm uninstall -g newman newman-reporter-htmlextra
          npm install -g newman newman-reporter-htmlextra
        
     # Make directory to upload the test results
