@@ -1,0 +1,41 @@
+name: run api core test on staging
+on:
+     push:
+     pull_request:
+    
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+      
+    # INstall Node on the runner
+    - name: Install Node
+      uses: actions/setup-node@v1
+      with: 
+        node-version: '16.x'
+    
+    # Install the newman command line utility and also install the html extra reporter
+    - name: Install newman
+      run: |
+        npm uninstall -g newman newman-reporter-htmlextra
+         npm install -g newman newman-reporter-htmlextra
+       
+    # Make directory to upload the test results
+    - name: Make Directory for results
+      run: |
+        mkdir -p testResults
+        
+    - name: Generate Report
+      run: |
+       newman run TalentsAPI.json -r htmlextra --reporter-htmlextra-export testResults/core-api-testReport.html --reporter-htmlextra-darkTheme
+       
+    # Upload the contents of Test Results directory to workspace
+    - name: Output the run Details
+      uses: actions/upload-artifact@v3
+      with: 
+       name: TestReports
+       path: testResults
+       
+       
